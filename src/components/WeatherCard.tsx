@@ -1,7 +1,7 @@
 import React from "react";
 
-const WeatherCard = () => {
-  return <div>WeatherCard</div>;
+const WeatherCard = ({ weatherData }) => {
+  return <div>{weatherData}</div>;
 };
 
 export default WeatherCard;

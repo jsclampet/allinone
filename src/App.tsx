@@ -8,9 +8,27 @@ import WeatherCard from "./components/WeatherCard";
 
 function App() {
   const [apiData, setApiData] = useState(null);
+  const [weatherData, setWeatherData] = useState(null);
 
   useEffect(() => {
     axios(import.meta.env.VITE_URL).then((res) => setApiData(res.data));
+  }, []);
+
+  useEffect(() => {
+    ///timelines?location= ${lat},${long}&fields=temperature&timesteps=1h&units=metric&apikey= ${VITE_WEATHER_API_KEY}
+    const lat = "40.75872069597532";
+    const long = "-73.98529171943665";
+
+    axios(
+      `${
+        import.meta.env.VITE_WEATHER_URL
+      }/timelines?location=${lat},${long}&fields=temperature&timesteps=1h&units=metric&apikey=${
+        import.meta.env.VITE_WEATHER_API_KEY
+      }`
+    ).then((res) => {
+      console.log(res.data);
+      setWeatherData(res.data);
+    });
   }, []);
 
   return (
@@ -24,7 +42,9 @@ function App() {
           <Loader>Loading</Loader>
         </Dimmer>
       )} */}
-      <WeatherCard />
+      {weatherData && (
+        <WeatherCard weatherData={weatherData.data.timelines[0].endTime} />
+      )}
     </div>
   );
 }
